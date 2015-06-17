@@ -33,7 +33,7 @@ RUN a2enmod rewrite
 RUN git clone https://github.com/SourceMod-Store/WebPanel-Core.git /app
 
 # Download composer
-RUN curl -sS https://getcomposer.org/installer (link is external) | php
+RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # Link the app to /var/www/html
