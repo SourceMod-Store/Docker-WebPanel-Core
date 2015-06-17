@@ -10,6 +10,7 @@ RUN apt-get update && \
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
 ADD start-mysqld.sh /start-mysqld.sh
+ADD composer_install.sh /composer_install.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
@@ -41,9 +42,6 @@ RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 
 # Link .env to /var/www/html
 RUN ln -s .env /var/www/html/.env
-
-# Compoer install the WebPanel-Core
-RUN cd /app && composer install
 
 #Enviornment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
