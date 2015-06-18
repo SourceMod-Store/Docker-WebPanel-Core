@@ -22,5 +22,6 @@ cd /app && composer update
 cd ../
 chmod -R www-data /app
 chgrp -R www-data /app
+chmod 777 /app/storage
 
 exec supervisord -n

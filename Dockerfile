@@ -14,7 +14,7 @@ ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
 ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.
+ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 ADD .env /.env
 
 # Remove pre-installed database
@@ -38,6 +38,7 @@ RUN mv composer.phar /usr/local/bin/composer
 # Set the owner of /app to www-database
 RUN chown -R www-data /app
 RUN chgrp -R www-data /app
+RUN chmod 777 /app/storage
 
 # Link the app to /var/www/html
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
