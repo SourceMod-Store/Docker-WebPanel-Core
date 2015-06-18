@@ -14,6 +14,9 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 	cd /app
 	composer install
 	php artisan key:generate
+	if [ -z "${GITHUB_TOKEN}"]; then
+		composer config github-oauth.github.com ${GITHUB_TOKEN}
+	fi
 	cd ../
 else
     echo "=> Using an existing volume of MySQL"
