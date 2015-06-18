@@ -11,17 +11,22 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> Done!"  
     /create_mysql_admin_user_and_database.sh
 	# Composer install the WebPanel-Core
-	cd /app && composer install
+	cd /app
+	composer install
+	php artisan migrate --force
 	cd ../
 else
     echo "=> Using an existing volume of MySQL"
 fi
 
 # Composer update the WebPanel-Core
-cd /app && composer update
-cd ../
 chmod -R www-data /app
 chgrp -R www-data /app
 chmod 777 /app/storage
 
 exec supervisord -n
+
+cd /app
+composer update
+php artisan migrate --force
+cd ../
