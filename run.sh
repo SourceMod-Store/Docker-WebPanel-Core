@@ -13,7 +13,7 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
 	# Composer install the WebPanel-Core
 	cd /app
 	composer install
-	php artisan migrate --force
+	php artisan key:generate
 	cd ../
 else
     echo "=> Using an existing volume of MySQL"
