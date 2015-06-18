@@ -31,7 +31,7 @@ ADD apache_default /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
 # Configure /app folder with sample app
-RUN git clone https://github.com/SourceMod-Store/WebPanel-Core.git /app
+RUN git clone https://github.com/SourceMod-Store/WebPanel-Core.git /app -b develop
 
 # Download composer
 RUN curl -sS https://getcomposer.org/installer | php
