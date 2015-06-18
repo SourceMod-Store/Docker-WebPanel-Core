@@ -4,13 +4,12 @@ MAINTAINER Werner Maisl <werner@myhomenet.at>
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt curl && \
+  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt curl pwgen && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
 ADD start-mysqld.sh /start-mysqld.sh
-ADD composer_install.sh /composer_install.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
@@ -22,8 +21,7 @@ ADD .env /.env
 RUN rm -rf /var/lib/mysql/*
 
 # Add MySQL utils
-ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
-ADD create_mysql_database.sh /create_mysql_database.sh
+ADD create_mysql_admin_user_and_database.sh /create_mysql_admin_user_and_database.sh
 RUN chmod 755 /*.sh
 
 # config to enable .htaccess
@@ -36,6 +34,10 @@ RUN git clone https://github.com/SourceMod-Store/WebPanel-Core.git /app -b devel
 # Download composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
+
+# Set the owner of /app to www-database
+RUN chown -R www-data /app
+RUN chgrp -R www-data /app
 
 # Link the app to /var/www/html
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html

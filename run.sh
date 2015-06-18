@@ -9,11 +9,18 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> Installing MySQL ..."
     mysql_install_db > /dev/null 2>&1
     echo "=> Done!"  
-    /create_mysql_admin_user.sh
-	/create_mysql_database.sh
-	/composer_install.sh
+    /create_mysql_admin_user_and_database.sh
+	# Composer install the WebPanel-Core
+	cd /app && composer install
+	cd ../
 else
     echo "=> Using an existing volume of MySQL"
 fi
+
+# Composer update the WebPanel-Core
+cd /app && composer update
+cd ../
+chmod -R www-data /app
+chgrp -R www-data /app
 
 exec supervisord -n

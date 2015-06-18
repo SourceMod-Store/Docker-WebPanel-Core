@@ -29,4 +29,8 @@ echo "Please remember to change the above password as soon as possible!"
 echo "MySQL user 'root' has no password but only allows local connections"
 echo "========================================================================"
 
+mysql -uroot -e "create database IF NOT EXISTS store;"
+
+echo "MySQL Database has been created";
+
 mysqladmin -uroot shutdown
