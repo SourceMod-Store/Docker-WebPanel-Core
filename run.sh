@@ -10,13 +10,16 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     mysql_install_db > /dev/null 2>&1
     echo "=> Done!"  
     /create_mysql_admin_user_and_database.sh
+	
 	# Composer install the WebPanel-Core
 	cd /app
-	composer install
-	php artisan key:generate
 	if [ -z "${GITHUB_TOKEN}"]; then
 		composer config github-oauth.github.com ${GITHUB_TOKEN}
 	fi
+	
+	composer install
+	php artisan key:generate
+	
 	cd ../
 else
     echo "=> Using an existing volume of MySQL"
